@@ -7,6 +7,7 @@ import datetime
 import time
 import aiohttp
 import asyncio
+import re
 
 settings = {"POLL_DURATION" : 60}
 
@@ -34,7 +35,16 @@ class General:
 
         To denote multiple choices, you should use double quotes.
         """
+        # shhhh... they'll never know ;)
+        nic = re.compile("^(nic|nic( )?ficca|ficca)$", re.IGNORECASE);
+
         choices = [escape_mass_mentions(choice) for choice in choices]
+
+        for choice in choices:
+            if nic.match(choice):
+                await self.bot.say(choice)
+                return
+
         if len(choices) < 2:
             await self.bot.say('Not enough choices to pick from.')
         else:
