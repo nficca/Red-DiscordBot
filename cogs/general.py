@@ -95,7 +95,7 @@ class General:
            "paper": ":page_facing_up:",
            "scissors":":scissors:"}
         choice = choice.lower()
-        if choice in rpsbot.keys():
+        if choice in rpsbot.keys() or nic.match(choice):
             botchoice = randchoice(list(rpsbot.keys()))
             msgs = {
                 "win": " You win {}!".format(author.mention),
