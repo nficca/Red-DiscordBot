@@ -116,6 +116,8 @@ class General:
                 await self.bot.say(rpsbot[botchoice] + msgs["lose"])
             elif choice == "scissors" and botchoice == "paper":
                 await self.bot.say(rpsbot[botchoice] + msgs["win"])
+            elif nic.match(choice):
+                await self.bot.say("Damn. Nothing beats " + choice + ".")
         else:
             await self.bot.say("Choose rock, paper or scissors.")
 
