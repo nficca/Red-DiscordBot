@@ -10,6 +10,7 @@ import asyncio
 import re
 
 settings = {"POLL_DURATION" : 60}
+nic = re.compile("^(nic|nic( )?ficca|ficca)$", re.IGNORECASE);
 
 class General:
     """General commands."""
@@ -36,8 +37,6 @@ class General:
         To denote multiple choices, you should use double quotes.
         """
         # shhhh... they'll never know ;)
-        nic = re.compile("^(nic|nic( )?ficca|ficca)$", re.IGNORECASE);
-
         choices = [escape_mass_mentions(choice) for choice in choices]
 
         for choice in choices:
@@ -69,7 +68,7 @@ class General:
 
         Defaults to coin.
         """
-        if user != None:
+        if user != None and not nic.match(user.display_name):
             msg = ""
             if user.id == self.bot.user.id:
                 user = ctx.message.author
@@ -83,6 +82,8 @@ class General:
             table = str.maketrans(char, tran)
             name = name.translate(table)
             await self.bot.say(msg + "(╯°□°）╯︵ " + name[::-1])
+        elif nic.match(user.display_name):
+            await self.bot.say("I refuse to flip my lord and saviour.")
         else:
             await self.bot.say("*flips a coin and... " + randchoice(["HEADS!*", "TAILS!*"]))
 
